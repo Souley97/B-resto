@@ -54,6 +54,7 @@ export default function CartPage() {
                     </p>
                     <div className="flex items-center gap-2 mt-2">
                       <Button
+                      className=" hover:bg-orange-600"
                         variant="outline"
                         size="icon"
                         onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
@@ -62,14 +63,16 @@ export default function CartPage() {
                       </Button>
                       <span>{item.quantity}</span>
                       <Button
+                                            className=" hover:bg-orange-600"
+
                         variant="outline"
                         size="icon"
                         onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
                       >
                         <Plus className="w-4 h-4" />
                       </Button>
-                      <Button variant="ghost" size="icon" className="ml-auto" onClick={() => removeFromCart(item.id)}>
-                        <Trash2 className="w-4 h-4" />
+                      <Button variant="ghost" size="icon" className="ml-auto text-red-600" onClick={() => removeFromCart(item.id)}>
+                        <Trash2 className="w-4 h-4 " />
                       </Button>
                     </div>
                   </div>

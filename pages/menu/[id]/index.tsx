@@ -100,17 +100,17 @@ export default function ProductPage({ product }: { product: Product }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="w-full md:w-3/4 lg:w-2/4 mx-auto grid gap-6 bg-white/70 backdrop-blur-sm rounded-2xl border border-gray-200 shadow-lg p-6"
+          className="w-full md:w-3/4 lg:w-2/4 md:max-w-[100%] mx-auto grid gap-6 bg-white/70 backdrop-blur-sm rounded-2xl border border-gray-200 shadow-lg p-6"
         >
           <motion.div
             whileHover={{ scale: 1.02 }}
-            className="relative aspect-video rounded-lg overflow-hidden"
+            className="relative aspect-video md:max-w-[100%] rounded-lg overflow-hidden"
           >
             <Image
               src={product.image || "/placeholder.svg"}
               alt={product.name}
               fill
-              className="object-cover"
+              className="object-cover "
             />
           </motion.div>
 
@@ -128,7 +128,7 @@ export default function ProductPage({ product }: { product: Product }) {
                   {product.sizes?.length > 0 && (
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-gray-700">Taille</label>
-                      <div className="flex gap-2">
+                      <div className="flex flex-wrap gap-2">
           {product.sizes.map((size) => (
             <Button
               key={size.id}

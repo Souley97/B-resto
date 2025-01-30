@@ -97,7 +97,7 @@ export default function AdminDashboard() {
     <div>
       <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
       <div className="flex justify-between my-10">
-        <Card className="w-2/3 rounded-3xl p-6 bg-gradient-to-r flex mr-6 from-indigo-400 via-pink-500 to-purple-500 text-white"  >
+        <Card className="lg:w-2/3 rounded-3xl p-6 bg-gradient-to-r flex mr-6 from-indigo-400 via-pink-500 to-purple-500 text-white"  >
           <div>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-4xl font-bold">bonjour Julinho 👋
@@ -113,12 +113,12 @@ export default function AdminDashboard() {
           </div>
 
         </Card>
-        <Card className="rounded-3xl w-1/3 justify-between bg-gradient-to-r   bg-white/50 backdrop-blur-xl  border-white border-2 shadow-xl transition-all duration-300"  >
+        <Card className="rounded-3xl w-1/3 md:hidden  justify-between bg-gradient-to-r   bg-white/50 backdrop-blur-xl  border-white border-2 shadow-xl transition-all duration-300"  >
         <CardHeader className="flex flex-row items-center justify-center space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
           </CardHeader>
           <CardContent  className="flex flex-row items-center justify-center space-y-0 pb-2">
-            <div className="text-2xl font-bold">${stats.totalRevenue.toFixed(2)}</div>
+            <div className="text-2xl font-bold">FCFA{stats.totalRevenue} FCFA</div>
           </CardContent>
         </Card>
 
@@ -147,7 +147,7 @@ export default function AdminDashboard() {
               <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
             </CardHeader>
             <CardContent>
-            <div className="text-2xl font-bold">${stats.totalRevenue.toFixed(2)}</div>
+            <div className="text-2xl font-bold">{stats.totalRevenue}  <span className="text-lg">FCFA</span></div>
             </CardContent>
            
           </div>
@@ -191,7 +191,7 @@ export default function AdminDashboard() {
               <Tooltip />
               <Legend />
               <Bar yAxisId="left" dataKey="orders" fill="#8884d8" name="Orders" />
-              <Bar yAxisId="right" dataKey="revenue" fill="#82ca9d" name="Revenue ($)" />
+              <Bar yAxisId="right" dataKey="revenue" fill="#82ca9d" name="Revenue (FCFA)" />
             </BarChart>
           </ResponsiveContainer>
         </CardContent>

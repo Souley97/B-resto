@@ -149,138 +149,130 @@ export default function OrdersToday() {
       </main>
     );
   }
-
   return (
     <main className="container max-w-6xl py-6">
       <h1 className="text-2xl font-bold m-3">Commandes d'aujourd'hui</h1>
-      <div className="grid px-1 md:grid-cols-2 gap-6">
+      
+      {/* Grid responsive */}
+      <div className="grid px-1 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 md:gap-6">
         {orders.map((order) => (
           <Card
             key={order.id}
             className="bg-white/25 backdrop-blur-sm rounded-2xl border-white border-2 shadow-xl transition-all duration-300"
           >
-            <CardContent className="p-6">
-              <div>
-                {/* Ligne de progression */}
-                <div className="relative flex items-center justify-between mb-6">
-                  {/* Barre de progression */}
-                  <div className="absolute h-1 w-full bg-gray-300 top-5 left-0 z-0"></div>
-                  <div
-                    className="absolute h-1 bg-orange-500 ml-1 top-5 z-10"
-                    style={{
-                      width: `${(statusSteps.findIndex((s) => s.status === order.status) /
-                          (statusSteps.length - 1)) *
-                        100
-                        }%`,
-                    }}
-                  ></div>
-
-                  {/* Points de progression */}
-                  {statusSteps.map((step, index) => {
-                    const isActive = statusSteps.findIndex((s) => s.status === order.status) === index;
-                    const isCompleted =
-                      statusSteps.findIndex((s) => s.status === order.status) >= index;
-
-                    return (
-                      <motion.div
-                        key={index}
-                        className="relative flex flex-col items-center text-center z-20"
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.3, delay: index * 0.2 }}
+            <CardContent className="p-4 md:p-6">
+              {/* Barre de progression */}
+              <div className="relative flex items-center justify-between mb-6">
+                <div className="absolute h-1 w-full bg-gray-300 top-5 left-0 z-0"></div>
+                <div
+                  className="absolute h-1 bg-orange-500 ml-1 top-5 z-10"
+                  style={{
+                    width: `${(statusSteps.findIndex((s) => s.status === order.status) /
+                      (statusSteps.length - 1)) *
+                      100
+                      }%`,
+                  }}
+                ></div>
+  
+                {statusSteps.map((step, index) => {
+                  const isActive = statusSteps.findIndex((s) => s.status === order.status) === index;
+                  const isCompleted =
+                    statusSteps.findIndex((s) => s.status === order.status) >= index;
+  
+                  return (
+                    <motion.div
+                      key={index}
+                      className="relative flex flex-col items-center text-center z-20"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.3, delay: index * 0.2 }}
+                    >
+                      <div
+                        className={`w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-full ${isCompleted ? "bg-orange-500" : "bg-gray-300"
+                          }`}
                       >
-                        <div
-                          className={`w-10 h-10 flex items-center justify-center rounded-full ${isCompleted ? "bg-orange-500" : "bg-gray-300"
-                            }`}
-                        >
-                          <step.icon
-                            className={`w-6 h-6 ${isCompleted ? "text-white" : "text-gray-600"}`}
-                          />
-                        </div>
-                        <p
-                          className={`mt-2 text-xs ${isActive ? "text-orange-500 font-semibold" : "text-gray-600"
-                            }`}
-                        >
-                          {step.label}
-                        </p>
-                      </motion.div>
-                    );
-                  })}
-                </div>
+                        <step.icon
+                          className={`w-5 h-5 sm:w-6 sm:h-6 ${isCompleted ? "text-white" : "text-gray-600"}`}
+                        />
+                      </div>
+                      <p
+                        className={`mt-2 text-xs sm:text-sm ${isActive ? "text-orange-500 font-semibold" : "text-gray-600"
+                          }`}
+                      >
+                        {step.label}
+                      </p>
+                    </motion.div>
+                  );
+                })}
               </div>
-
+  
               {/* Order Details */}
               <div className="space-y-4">
+                {/* Détails Client */}
                 <div>
-                  <h3 className="font-semibold mb-2">Détails du client</h3>
-                  <p>{order.customerName}</p>
-                  <p>{order.customerPhone}</p>
-                  <p>{order.customerEmail}</p>
+                  <h3 className="font-semibold mb-2 text-sm md:text-base">Détails du client</h3>
+                  <p className="text-xs md:text-sm">{order.customerName}</p>
+                  <p className="text-xs md:text-sm">{order.customerPhone}</p>
+                  <p className="text-xs md:text-sm">{order.customerEmail}</p>
                 </div>
-                <div className=" h-0.5 w-full bg-gray-300 "></div>
-
+                <div className="h-0.5 w-full bg-gray-300"></div>
+  
+                {/* Adresse et paiement */}
                 <div>
-                  <h3 className="font-semibold mb-2">Adresse de livraison</h3>
-                  <div className=" justify-between flex">
-
-                  <p>{order.deliveryAddress}</p>
-                  <p>{order.paymentMethod}</p>
-                  
-                </div>
-                </div>
-                <div className=" h-0.5 w-full bg-gray-300 "></div>
-
-                <div>
-                  <h3 className="font-semibold mb-2">Montant total</h3>
-                  <div className=" justify-between flex">
-                  <div>
-                  {order.items.map((item, index) => (
-                    <div key={index}>
-                      {item.name} x {item.quantity}
-                    </div>
-                  ))}
+                  <h3 className="font-semibold mb-2 text-sm md:text-base">Adresse de livraison</h3>
+                  <div className="flex flex-col sm:flex-row justify-between">
+                    <p className="text-xs md:text-sm">{order.deliveryAddress}</p>
+                    <p className="text-xs md:text-sm">{order.paymentMethod}</p>
                   </div>
-                  <p className="text-orange-600 font-semibold">{order.total.toFixed(2)} €</p>
                 </div>
+                <div className="h-0.5 w-full bg-gray-300"></div>
+  
+                {/* Montant total */}
+                <div>
+                  <h3 className="font-semibold mb-2 text-sm md:text-base">Montant total</h3>
+                  <div className="flex flex-col sm:flex-row justify-between">
+                    <div>
+                      {order.items.map((item, index) => (
+                        <div key={index} className="text-xs md:text-sm">
+                          {item.name} x {item.quantity}
+                        </div>
+                      ))}
+                    </div>
+                    <p className="text-orange-600 font-semibold">{order.total} FCFA</p>
+                  </div>
                 </div>
-                <div className=" h-0.5 w-full bg-gray-300 "></div>
-
-                <div className=" justify-between flex">
+                <div className="h-0.5 w-full bg-gray-300"></div>
+  
+                {/* Date et statut */}
+                <div className="flex flex-col sm:flex-row justify-between">
                   <div>
-                    <h3 className="font-semibold mb-2">Date de création</h3>
-                    <p>{formatDateTime(order.createdAt)}</p>
+                    <h3 className="font-semibold mb-2 text-sm md:text-base">Date de création</h3>
+                    <p className="text-xs md:text-sm">{formatDateTime(order.createdAt)}</p>
                   </div>
                   <Select
-  onValueChange={(value) => updateOrderStatus(order.id, value as Order["status"])}
-  defaultValue={order.status}
-  disabled={["delivered", "cancelled"].includes(order.status)} // Désactive le Select si le statut est "delivered" ou "cancelled"
->
-  <SelectTrigger className="w-[180px]">
-    <SelectValue placeholder="Changer le statut" />
-  </SelectTrigger>
-  <SelectContent>
-    {statusSteps.map((step) => (
-      <SelectItem
-        key={step.status}
-        value={step.status}
-        disabled={["delivered", "cancelled"].includes(order.status)} // Désactive les options "delivered" ou "cancelled"
-      >
-        {step.label}
-      </SelectItem>
-    ))}
-    <SelectItem value="cancelled" disabled={["delivered", "cancelled"].includes(order.status)}>
-      Annulé
-    </SelectItem>
-  </SelectContent>
-</Select>
-
+                    onValueChange={(value) => updateOrderStatus(order.id, value as Order["status"])}
+                    defaultValue={order.status}
+                    disabled={["delivered", "cancelled"].includes(order.status)}
+                  >
+                    <SelectTrigger className="w-full sm:w-[180px]">
+                      <SelectValue placeholder="Changer le statut" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {statusSteps.map((step) => (
+                        <SelectItem key={step.status} value={step.status}>
+                          {step.label}
+                        </SelectItem>
+                      ))}
+                      <SelectItem value="cancelled">Annulé</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
-
             </CardContent>
           </Card>
         ))}
       </div>
     </main>
   );
+  
 }

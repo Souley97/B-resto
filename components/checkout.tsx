@@ -32,6 +32,7 @@ export default function CheckoutComponent() {
 
   const [location, setLocation] = useState<{ latitude: number; longitude: number } | null>(null);
   const [locationError, setLocationError] = useState<string | null>(null);
+  const [errors, setErrors] = useState({});
 
   const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
   const tax = subtotal * 0.1; // Assuming 10% tax
@@ -90,27 +91,27 @@ export default function CheckoutComponent() {
         paymentMethod: formData.paymentMethod,
         location: location ? { latitude: location.latitude, longitude: location.longitude } : null, // Ajoutez la localisation
       };
-  
+
       // Enregistrer la commande dans Firestore
       const docRef = await addDoc(collection(db, "orders"), order);
-  
+
       // Lancer le paiement avec PayTech
       const paytech = new (window as any).PayTech({
         apiKey: process.env.NEXT_PUBLIC_PAYTECH_API_KEY, // Clé API publique
         secretKey: process.env.NEXT_PUBLIC_PAYTECH_SECRET_KEY, // Clé secrète publique
       });
-  
+
       paytech.withOption({
         tokenUrl: `https://paytech.sn/payment/checkout/${docRef.id}`, // URL de paiement générée
         prensentationMode: (window as any).PayTech.OPEN_IN_POPUP, // Ouvrir dans un popup
       }).send();
-  
+
       // Rediriger vers la page de confirmation après le paiement
       router.push(`/order-confirmation?orderId=${docRef.id}`);
     } catch (error) {
       console.error("Erreur lors du lancement du paiement Mobile Money :", error);
       toast({
-        title: "Erreur",
+        placeholder: "Erreur",
         description: "Une erreur est survenue lors du lancement du paiement. Veuillez réessayer.",
         variant: "destructive",
       });
@@ -119,6 +120,32 @@ export default function CheckoutComponent() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    let newErrors = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = "Veuillez saisir un nom complet.";
+    }
+  
+    if (!/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/.test(formData.email)) {
+      newErrors.email = "Veuillez saisir une adresse email valide.";
+    }
+  
+    if (!/^[0-9]{9}$/.test(formData.phone)) {
+      newErrors.phone = "Veuillez saisir un numéro de téléphone valide (9 chiffres).";
+    }
+  
+    if (!/^[a-zA-Z0-9 -]{4,}$/.test(formData.address)) {
+      newErrors.address = "Veuillez saisir une adresse valide (10 caractères minimum).";
+    }
+  
+    if (!/^[a-zA-Z0-9 -]{5,}$/.test(formData.city)) {
+      newErrors.city = "Veuillez saisir une ville valide (5 caractères minimum).";
+    }
+  
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
     try {
       // Valider les données du formulaire
       if (
@@ -131,7 +158,7 @@ export default function CheckoutComponent() {
       ) {
         throw new Error("Veuillez remplir tous les champs obligatoires.");
       }
-
+     
       // Si le mode de paiement est Mobile Money, lancer le paiement
       if (formData.paymentMethod === "mobileMoney") {
         await initiateMobileMoneyPayment();
@@ -168,7 +195,7 @@ export default function CheckoutComponent() {
 
       // Afficher un message de succès
       toast({
-        title: "Commande confirmée",
+        placeholder: "Commande confirmée",
         description: "Votre commande a été passée avec succès.",
       });
 
@@ -177,7 +204,7 @@ export default function CheckoutComponent() {
     } catch (error) {
       console.error("Erreur lors de la soumission de la commande :", error);
       toast({
-        title: "Erreur",
+        placeholder: "Erreur",
         description:
           error instanceof Error
             ? error.message
@@ -229,29 +256,29 @@ export default function CheckoutComponent() {
                   <motion.div
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="flex p-5 justify-between items-center space-x-2 rounded-3xl bg-gradient-to-r mt-5 bg-white/50 backdrop-blur-xl border-black border-2 shadow-xl transition-all duration-300"
+                    className="flex p-5 justify-between items-center space-x-2 rounded-3xl bg-gradient-to-r mt-5 bg-white/50 backdrop-blur-xl border-orange-400 border-2 shadow-xl transition-all duration-300"
                   >
                     <CreditCard />
                     <Label htmlFor="card">Carte bancaire</Label>
-                    <RadioGroupItem value="card" id="card" />
+                    <RadioGroupItem className="text-orange-500" value="card" id="card" />
                   </motion.div>
                   <motion.div
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="flex p-5 justify-between items-center space-x-2 rounded-3xl bg-gradient-to-r mt-5 bg-white/50 backdrop-blur-xl border-black border-2 shadow-xl transition-all duration-300"
+                    className="flex p-5 justify-between items-center space-x-2 rounded-3xl bg-gradient-to-r mt-5 bg-white/50 backdrop-blur-xl border-orange-400 border-2 shadow-xl transition-all duration-300"
                   >
                     <CreditCard />
                     <Label htmlFor="cash">Espèces</Label>
-                    <RadioGroupItem value="cash" id="cash" />
+                    <RadioGroupItem className="text-orange-500" value="cash" id="cash" />
                   </motion.div>
                   <motion.div
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="flex p-5 justify-between items-center space-x-2 rounded-3xl bg-gradient-to-r mt-5 bg-white/50 backdrop-blur-xl border-black border-2 shadow-xl transition-all duration-300"
+                    className="flex p-5 justify-between items-center space-x-2 rounded-3xl bg-gradient-to-r mt-5 bg-white/50 backdrop-blur-xl border-orange-400 border-2 shadow-xl transition-all duration-300"
                   >
                     <CreditCard />
                     <Label htmlFor="mobileMoney">Mobile Money</Label>
-                    <RadioGroupItem value="mobileMoney" id="mobileMoney" />
+                    <RadioGroupItem className="text-orange-500" value="mobileMoney" id="mobileMoney" />
                   </motion.div>
                 </RadioGroup>
               </div>
@@ -288,63 +315,84 @@ export default function CheckoutComponent() {
                 <div>
                   <Label htmlFor="name">Nom complet</Label>
                   <Input
+                    className=" rounded-3xl bg-gradient-to-r   border-orange-400 border-2 shadow-xl transition-all duration-300"
                     id="name"
                     name="name"
                     value={formData.name}
                     onChange={handleInputChange}
-                    required
+                    placeholder="Veuillez saisir un nom complet"
                   />
+                  {/* message error pattern*/}
+                  {errors.name && <p className="text-sm text-red-500">{errors.name}</p>}
+
                 </div>
                 <div>
                   <Label htmlFor="email">Email</Label>
                   <Input
+                    className=" rounded-3xl bg-gradient-to-r   border-orange-400 border-2 shadow-xl transition-all duration-300"
                     id="email"
                     name="email"
                     type="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    required
+                    placeholder="Veuillez saisir une adresse email valide"
                   />
+                  {/* message error pattern*/}
+                  {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
+
                 </div>
                 <div>
                   <Label htmlFor="phone">Téléphone</Label>
                   <Input
+                    className=" rounded-3xl bg-gradient-to-r   border-orange-400 border-2 shadow-xl transition-all duration-300"
                     id="phone"
                     name="phone"
                     type="tel"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    required
+                    placeholder="Veuillez saisir un numéro de téléphone valide (10 chiffres)"
                   />
+                  {/* message error pattern*/}
+                  {errors.phone && <p className="text-sm text-red-500">{errors.phone}</p>}
+
                 </div>
                 <div>
                   <Label htmlFor="address">Adresse</Label>
                   <Input
+                    className=" rounded-3xl bg-gradient-to-r   border-orange-400 border-2 shadow-xl transition-all duration-300"
                     id="address"
                     name="address"
                     value={formData.address}
                     onChange={handleInputChange}
-                    required
+                    placeholder="Veuillez saisir une adresse valide (10 caractères minimum)"
                   />
+                  {/* message error pattern*/}
+                  {errors.address && <p className="text-sm text-red-500">{errors.address}</p>}
+
                 </div>
                 <div>
                   <Label htmlFor="city">Ville</Label>
                   <Input
+                    className=" rounded-3xl bg-gradient-to-r   border-orange-400 border-2 shadow-xl transition-all duration-300"
                     id="city"
                     name="city"
                     value={formData.city}
                     onChange={handleInputChange}
-                    required
+                    placeholder="Veuillez saisir une ville valide (5 caractères minimum)"
+                    
                   />
+                  {/* message error pattern*/}
+                  {errors.city && <p className="text-sm text-red-500">{errors.city}</p>}
+
                 </div>
                 <div>
                   <Label htmlFor="postalCode">Code postal</Label>
                   <Input
+                    className=" rounded-3xl bg-gradient-to-r   border-orange-400 border-2 shadow-xl transition-all duration-300"
                     id="postalCode"
                     name="postalCode"
                     value={formData.postalCode}
                     onChange={handleInputChange}
-                    required
                   />
                 </div>
               </motion.div>
@@ -352,7 +400,7 @@ export default function CheckoutComponent() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <Button type="submit" className="w-full">
+                <Button type="submit" className="w-full bg-orange-500 ">
                   Confirmer la commande
                 </Button>
               </motion.div>

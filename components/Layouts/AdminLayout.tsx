@@ -65,7 +65,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <motion.aside
         className={`${
           isMenuOpen ? "w-64" : "w-20"
-        } bg-white/25 backdrop-blur-sm m-4 ml-12 rounded-2xl border-white border-2 shadow-xl transition-all duration-300`}
+        } bg-white/25 backdrop-blur-sm lg:m-4 lg:ml-12 rounded-2xl border-white border-2 shadow-xl transition-all duration-300`}
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5 }}
@@ -126,7 +126,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </motion.aside>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-x-hidden px-12 overflow-y-auto">
+      <main className="flex-1 overflow-x-hidden lg:px-12 overflow-y-auto">
         <motion.div
           className="container mx-auto px-6 py-8"
           initial={{ opacity: 0 }}

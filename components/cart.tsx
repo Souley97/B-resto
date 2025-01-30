@@ -57,8 +57,9 @@ export default function CartComponent() {
                     <div className="">
                     <p className="font-semibold">{(item.price * item.quantity)} FCFA</p>
                   </div>
-                    <div className="flex items-center gap-2 mt-2">
+                  <div className="flex items-center gap-2 mt-2">
                       <Button
+                      className=" hover:bg-orange-400"
                         variant="outline"
                         size="icon"
                         onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
@@ -67,14 +68,16 @@ export default function CartComponent() {
                       </Button>
                       <span>{item.quantity}</span>
                       <Button
+                                            className=" hover:bg-orange-400"
+
                         variant="outline"
                         size="icon"
                         onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
                       >
                         <Plus className="w-4 h-4" />
                       </Button>
-                      <Button variant="ghost" size="icon" className="ml-auto text-right" onClick={() => removeFromCart(item.id)}>
-                        <Trash2 className="w-4 h-4" />
+                      <Button variant="ghost" size="icon" className="ml-auto text-red-600" onClick={() => removeFromCart(item.id)}>
+                        <Trash2 className="w-4 h-4 " />
                       </Button>
                     </div>
                   </div>
@@ -106,7 +109,7 @@ export default function CartComponent() {
                 
                 <Sheet>
                 <SheetTrigger asChild>
-                <Button variant="outline" className="w-full mt-4" asChild>
+                <Button variant="outline" className="w-full mt-4 cursor-pointer bg-orange-500" asChild>
                   <span >Passer à la caisse</span>
 
                 </Button>
