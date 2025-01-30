@@ -132,7 +132,7 @@ export default function FinancePage() {
 
       {/* Financial Overview */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card>
+        <Card className="rounded-3xl bg-gradient-to-r mt-5 bg-white/50 backdrop-blur-xl border-white border-2 shadow-xl transition-all duration-300">
           <CardHeader>
             <CardTitle>Daily Revenue</CardTitle>
           </CardHeader>
@@ -140,7 +140,7 @@ export default function FinancePage() {
             <p className="text-2xl font-bold">${financialData.dailyRevenue.toFixed(2)}</p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="rounded-3xl bg-gradient-to-r mt-5 bg-white/50 backdrop-blur-xl border-white border-2 shadow-xl transition-all duration-300">
           <CardHeader>
             <CardTitle>Weekly Revenue</CardTitle>
           </CardHeader>
@@ -148,7 +148,7 @@ export default function FinancePage() {
             <p className="text-2xl font-bold">${financialData.weeklyRevenue.toFixed(2)}</p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="rounded-3xl bg-gradient-to-r mt-5 bg-white/50 backdrop-blur-xl border-white border-2 shadow-xl transition-all duration-300">
           <CardHeader>
             <CardTitle>Monthly Revenue</CardTitle>
           </CardHeader>
@@ -156,7 +156,7 @@ export default function FinancePage() {
             <p className="text-2xl font-bold">${financialData.monthlyRevenue.toFixed(2)}</p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="rounded-3xl bg-gradient-to-r mt-5 bg-white/50 backdrop-blur-xl border-white border-2 shadow-xl transition-all duration-300">
           <CardHeader>
             <CardTitle>Avg. Transaction</CardTitle>
           </CardHeader>
@@ -167,7 +167,7 @@ export default function FinancePage() {
       </div>
 
       {/* Revenue Chart */}
-      <Card>
+      <Card className="rounded-3xl bg-gradient-to-r mt-5 bg-white/50 backdrop-blur-xl border-white border-2 shadow-xl transition-all duration-300">
         <CardHeader>
           <CardTitle>Revenue Over Time</CardTitle>
         </CardHeader>
@@ -198,7 +198,7 @@ export default function FinancePage() {
       </Card>
 
       {/* Payment History */}
-      <Card>
+      <Card className="rounded-3xl bg-gradient-to-r mt-5 bg-white/50 backdrop-blur-xl border-white border-2 shadow-xl transition-all duration-300">
         <CardHeader>
           <CardTitle>Payment History</CardTitle>
         </CardHeader>

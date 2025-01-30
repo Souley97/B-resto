@@ -114,9 +114,9 @@ export default function AnalyticsPage() {
     <div className="space-y-6">
       <h1 className="text-3xl font-bold">Analytics</h1>
 
-      <div className="flex justify-end">
+      <div className="flex justify-end ">
         <Select value={timeRange} onValueChange={(value: "day" | "week" | "month") => setTimeRange(value)}>
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-[180px] rounded-3xl bg-gradient-to-r mt-5 bg-white/50 backdrop-blur-xl border-white border-2 shadow-xl transition-all duration-300">
             <SelectValue placeholder="Select time range" />
           </SelectTrigger>
           <SelectContent>
@@ -128,7 +128,7 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Sales by Category */}
-      <Card>
+      <Card className="rounded-3xl bg-gradient-to-r mt-5 bg-white/50 backdrop-blur-xl border-white border-2 shadow-xl transition-all duration-300">
         <CardHeader>
           <CardTitle>Sales by Category</CardTitle>
         </CardHeader>
@@ -148,7 +148,7 @@ export default function AnalyticsPage() {
       </Card>
 
       {/* Top Selling Dishes */}
-      <Card>
+      <Card className="rounded-3xl bg-gradient-to-r mt-5 bg-white/50 backdrop-blur-xl   border-white border-2 shadow-xl transition-all duration-300">
         <CardHeader>
           <CardTitle>Top Selling Dishes</CardTitle>
         </CardHeader>
@@ -167,7 +167,7 @@ export default function AnalyticsPage() {
       </Card>
 
       {/* Hourly Sales */}
-      <Card>
+      <Card className="rounded-3xl bg-gradient-to-r mt-5 bg-white/50 backdrop-blur-xl border-white border-2 shadow-xl transition-all duration-300">
         <CardHeader>
           <CardTitle>Hourly Sales</CardTitle>
         </CardHeader>

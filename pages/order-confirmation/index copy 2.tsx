@@ -212,7 +212,7 @@ export default function OrderConfirmationPage() {
         </div>
         {/* Carte Google Maps */}
         {order.location && isLoaded && (
-          <div className="mt-6" >
+          <div className="mt-6">
             <h2 className="text-xl font-bold mb-4">Localisation de la commande</h2>
             <GoogleMap
               mapContainerStyle={{ width: "100%", height: "400px" }}
