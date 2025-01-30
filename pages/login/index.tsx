@@ -7,8 +7,8 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { useToast } from "@/components/ui/use-toast"
-
+import 'react-toastify/dist/ReactToastify.css';
+import { useToast } from "@/hooks/use-toast"
 export default function AdminLoginPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -26,6 +26,12 @@ export default function AdminLoginPage() {
         title: "Connexion réussie",
         description: "Vous êtes maintenant connecté en tant qu'administrateur.",
       })
+      const user = auth.currentUser
+      if (user) {
+        const token = await user.getIdToken()
+        document.cookie = `auth=${token}; path=/; max-age=86400; Secure`
+      }
+      
       router.push("/admin")
     } catch (error) {
       console.error("Erreur de connexion:", error)

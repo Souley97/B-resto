@@ -58,6 +58,7 @@
     "react-hook-form": "^7.54.1",
     "react-qr-reader": "latest",
     "react-resizable-panels": "^2.1.7",
+    "react-toastify": "^11.0.3",
     "recharts": "latest",
     "sonner": "^1.7.1",
     "tailwind-merge": "^2.5.5",

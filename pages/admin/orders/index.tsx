@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ErrorBoundary } from "react-error-boundary"
 import { Card } from "@/components/ui/card"
 import OrdersToday from "@/components/command-today"
+import { getMessaging, onMessage } from "firebase/messaging";
 
 interface Order {
   id: string
@@ -29,59 +30,74 @@ export default function OrdersManagement() {
   const [lastVisible, setLastVisible] = useState<any>(null) // Dernier élément visible pour la pagination
   const [totalOrders, setTotalOrders] = useState(0) // Total des commandes
   const [filterDate, setFilterDate] = useState("");
+  const [previousOrders, setPreviousOrders] = useState<Order[]>([]);
 
   // Charger les commandes selon la pagination
-
-useEffect(() => {
-  const loadOrders = async () => {
-    const queryConstraints: any[] = [
-      orderBy("createdAt", "desc"),
-      limit(pageSize)
-    ];
-
-    if (currentPage > 1 && lastVisible) {
-      queryConstraints.push(startAfter(lastVisible));
-    }
-
-    if (filterDate) {
-      const startOfDay = new Date(filterDate);
-      startOfDay.setHours(0, 0, 0, 0);
-      const endOfDay = new Date(filterDate);
-      endOfDay.setHours(23, 59, 59, 999);
-      queryConstraints.push(where("createdAt", ">=", startOfDay), where("createdAt", "<=", endOfDay));
-    }
-
-    const q = query(collection(db, "orders"), ...queryConstraints);
-
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const ordersData: Order[] = [];
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        ordersData.push({
-          id: doc.id,
-          customerName: data.customerName,
-          items: data.items,
-          total: data.total,
-          paymentMethod: data.paymentMethod,
-          status: data.status,
-          createdAt: data.createdAt.toDate(),
-        });
-      });
-      setOrders(ordersData);
-      setLastVisible(querySnapshot.docs[querySnapshot.docs.length - 1]);
+ const playSuccessSound = () => {
+    const audio = new Audio('/notification.mp3');
+    audio.play().catch(error => {
+      console.error('Erreur lors de la lecture du fichier audio:', error);
     });
-
-    // Total orders count logic remains the same
-    const totalOrdersQuery = query(collection(db, "orders"));
-    const totalOrdersSnapshot = await getDocs(totalOrdersQuery);
-    setTotalOrders(totalOrdersSnapshot.size);
-
-    return () => unsubscribe();
   };
 
-  loadOrders();
-}, [pageSize, currentPage, filterDate]); // Adding filterDate to dependencies
-  // Changer la taille de la page
+
+  useEffect(() => {
+    const messaging = getMessaging();
+  
+    const loadOrders = async () => {
+      const queryConstraints: any[] = [
+        orderBy("createdAt", "desc"),
+        limit(pageSize)
+      ];
+  
+      if (currentPage > 1 && lastVisible) {
+        queryConstraints.push(startAfter(lastVisible));
+      }
+  
+      if (filterDate) {
+        const startOfDay = new Date(filterDate);
+        startOfDay.setHours(0, 0, 0, 0);
+        const endOfDay = new Date(filterDate);
+        endOfDay.setHours(23, 59, 59, 999);
+        queryConstraints.push(where("createdAt", ">=", startOfDay), where("createdAt", "<=", endOfDay));
+      }
+  
+      const q = query(collection(db, "orders"), ...queryConstraints);
+  
+      const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        const ordersData: Order[] = [];
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          ordersData.push({
+            id: doc.id,
+            customerName: data.customerName,
+            items: data.items,
+            total: data.total,
+            paymentMethod: data.paymentMethod,
+            status: data.status,
+            createdAt: data.createdAt.toDate(),
+          });
+        });
+  
+        // Vérifier si une nouvelle commande a été ajoutée
+        // if (ordersData.length > previousOrders.length) {
+        //   playSuccessSound();
+        // }
+  
+        setOrders(ordersData);
+        setLastVisible(querySnapshot.docs[querySnapshot.docs.length - 1]);
+      });
+  
+      // Total orders count logic remains the same
+      const totalOrdersQuery = query(collection(db, "orders"));
+      const totalOrdersSnapshot = await getDocs(totalOrdersQuery);
+      setTotalOrders(totalOrdersSnapshot.size);
+  
+      return () => unsubscribe();
+    };
+  
+    loadOrders();
+  }, [pageSize, currentPage, filterDate]); // Ajout du filtre comme dépendance // Changer la taille de la page
   const handlePageSizeChange = (value: number) => {
     setPageSize(value)
     setCurrentPage(1) // Réinitialiser à la première page

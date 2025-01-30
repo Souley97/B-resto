@@ -19,6 +19,10 @@ import { auth } from "@/lib/firebase";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { Toaster } from "../ui/toaster";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useToast } from "@/hooks/use-toast"
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -29,15 +33,22 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   useEffect(() => {
     if (!loading && !user) {
-      router.push("/admin/login");
+      router.push("/login");
     }
   }, [user, loading, router]);
 
-  const handleLogout = async () => {
-    await signOut(auth);
-    router.push("/admin/login");
-  };
-
+ // Fonction pour gérer la déconnexion
+ const handleLogout = async () => {
+  try {
+    await signOut(auth)
+    document.cookie = "auth=; path=/; max-age=0" // Supprime le cookie de l'authentification
+    router.push("/login") // Redirige vers la page de connexion
+    toast.success("Déconnexion réussie !")
+  } catch (error) {
+    console.error("Erreur de déconnexion:", error)
+    toast.error("Échec de la déconnexion. Veuillez réessayer.")
+  }
+}
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -124,6 +135,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </Button>
         </div>
       </motion.aside>
+      <ToastContainer />
 
       {/* Main Content */}
       <main className="flex-1 overflow-x-hidden lg:px-12 overflow-y-auto">
@@ -134,6 +146,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           transition={{ duration: 0.5 }}
         >
           {children}
+          <Toaster />
+
         </motion.div>
       </main>
     </div>

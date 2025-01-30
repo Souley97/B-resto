@@ -25,7 +25,14 @@ export default function AdminDashboard() {
     customersServed: 0,
     lowStockItems: 0,
   })
+  const playSuccessSound = () => {
+    const audio = new Audio('/notification.mp3');
+    audio.play().catch(error => {
+      console.error('Erreur lors de la lecture du fichier audio:', error);
+    });
+  };
   const [chartData, setChartData] = useState<ChartData[]>([])
+
 
   useEffect(() => {
     const fetchDashboardData = async () => {

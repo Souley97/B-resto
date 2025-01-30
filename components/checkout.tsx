@@ -7,9 +7,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useCart } from "@/lib/cart-context";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
+
 import { CreditCard } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -118,6 +120,41 @@ export default function CheckoutComponent() {
     }
   };
 
+
+// Fonction pour envoyer une notification FCM
+const sendNotification = async (orderId: string, customerName: string, total: number) => {
+  try {
+    // Récupérer le token d'inscription de l'admin
+    const adminToken = "BN5VvqwZ_74MANvaL97WYOm8T3jbI5ufLRKBPg4A7LMGL4V2H4bjQbehuHOz_0LfQYkvWP3Eaia08kRCxqpTFPM"; // Remplace avec le vrai token de l'admin
+
+    const notificationPayload = {
+      to: adminToken,
+      notification: {
+        title: "Nouvelle Commande 🛒",
+        body: `Une nouvelle commande de ${customerName} a été passée. Total: ${total} FCFA`,
+        sound: "default",
+      },
+      data: {
+        orderId: orderId,
+        type: "new_order",
+      },
+    };
+
+    // Envoyer la requête au serveur Firebase
+    await fetch("https://fcm.googleapis.com/fcm/send", {
+      method: "POST",
+      headers: {
+        Authorization: `key=${process.env.NEXT_PUBLIC_FIREBASE_SERVER_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(notificationPayload),
+    });
+
+    console.log("Notification envoyée avec succès !");
+  } catch (error) {
+    console.error("Erreur lors de l'envoi de la notification :", error);
+  }
+};
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     let newErrors = {};
@@ -189,6 +226,8 @@ export default function CheckoutComponent() {
 
       // Enregistrer la commande dans Firestore
       const docRef = await addDoc(collection(db, "orders"), order);
+ // Envoyer la notification à l'admin
+ await sendNotification(docRef.id, formData.name, total);
 
       // Vider le panier
       clearCart();
