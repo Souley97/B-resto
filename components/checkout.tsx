@@ -14,6 +14,7 @@ import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
 import { CreditCard } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 export default function CheckoutComponent() {
   const router = useRouter();
@@ -121,40 +122,40 @@ export default function CheckoutComponent() {
   };
 
 
-// Fonction pour envoyer une notification FCM
-const sendNotification = async (orderId: string, customerName: string, total: number) => {
-  try {
-    // Récupérer le token d'inscription de l'admin
-    const adminToken = "BN5VvqwZ_74MANvaL97WYOm8T3jbI5ufLRKBPg4A7LMGL4V2H4bjQbehuHOz_0LfQYkvWP3Eaia08kRCxqpTFPM"; // Remplace avec le vrai token de l'admin
+  // Fonction pour envoyer une notification FCM
+  const sendNotification = async (orderId: string, customerName: string, total: number) => {
+    try {
+      // Récupérer le token d'inscription de l'admin
+      const adminToken = "BN5VvqwZ_74MANvaL97WYOm8T3jbI5ufLRKBPg4A7LMGL4V2H4bjQbehuHOz_0LfQYkvWP3Eaia08kRCxqpTFPM"; // Remplace avec le vrai token de l'admin
 
-    const notificationPayload = {
-      to: adminToken,
-      notification: {
-        title: "Nouvelle Commande 🛒",
-        body: `Une nouvelle commande de ${customerName} a été passée. Total: ${total} FCFA`,
-        sound: "default",
-      },
-      data: {
-        orderId: orderId,
-        type: "new_order",
-      },
-    };
+      const notificationPayload = {
+        to: adminToken,
+        notification: {
+          title: "Nouvelle Commande 🛒",
+          body: `Une nouvelle commande de ${customerName} a été passée. Total: ${total} FCFA`,
+          sound: "default",
+        },
+        data: {
+          orderId: orderId,
+          type: "new_order",
+        },
+      };
 
-    // Envoyer la requête au serveur Firebase
-    await fetch("https://fcm.googleapis.com/fcm/send", {
-      method: "POST",
-      headers: {
-        Authorization: `key=${process.env.NEXT_PUBLIC_FIREBASE_SERVER_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(notificationPayload),
-    });
+      // Envoyer la requête au serveur Firebase
+      await fetch("https://fcm.googleapis.com/fcm/send", {
+        method: "POST",
+        headers: {
+          Authorization: `key=${process.env.NEXT_PUBLIC_FIREBASE_SERVER_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(notificationPayload),
+      });
 
-    console.log("Notification envoyée avec succès !");
-  } catch (error) {
-    console.error("Erreur lors de l'envoi de la notification :", error);
-  }
-};
+      console.log("Notification envoyée avec succès !");
+    } catch (error) {
+      console.error("Erreur lors de l'envoi de la notification :", error);
+    }
+  };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     let newErrors = {};
@@ -162,23 +163,23 @@ const sendNotification = async (orderId: string, customerName: string, total: nu
     if (!formData.name.trim()) {
       newErrors.name = "Veuillez saisir un nom complet.";
     }
-  
+
     if (!/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/.test(formData.email)) {
       newErrors.email = "Veuillez saisir une adresse email valide.";
     }
-  
+
     if (!/^[0-9]{9}$/.test(formData.phone)) {
       newErrors.phone = "Veuillez saisir un numéro de téléphone valide (9 chiffres).";
     }
-  
+
     if (!/^[a-zA-Z0-9 -]{4,}$/.test(formData.address)) {
       newErrors.address = "Veuillez saisir une adresse valide (10 caractères minimum).";
     }
-  
+
     if (!/^[a-zA-Z0-9 -]{5,}$/.test(formData.city)) {
       newErrors.city = "Veuillez saisir une ville valide (5 caractères minimum).";
     }
-  
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
@@ -195,7 +196,7 @@ const sendNotification = async (orderId: string, customerName: string, total: nu
       ) {
         throw new Error("Veuillez remplir tous les champs obligatoires.");
       }
-     
+
       // Si le mode de paiement est Mobile Money, lancer le paiement
       if (formData.paymentMethod === "mobileMoney") {
         await initiateMobileMoneyPayment();
@@ -226,8 +227,8 @@ const sendNotification = async (orderId: string, customerName: string, total: nu
 
       // Enregistrer la commande dans Firestore
       const docRef = await addDoc(collection(db, "orders"), order);
- // Envoyer la notification à l'admin
- await sendNotification(docRef.id, formData.name, total);
+      // Envoyer la notification à l'admin
+      await sendNotification(docRef.id, formData.name, total);
 
       // Vider le panier
       clearCart();
@@ -271,6 +272,25 @@ const sendNotification = async (orderId: string, customerName: string, total: nu
     };
   }, []);
 
+  const sendOrderToWhatsApp = () => {
+    const message = `Bonjour, je souhaite passer une commande :%0A
+    - Nom : ${formData.name}%0A
+    - Téléphone : ${formData.phone}%0A
+    - Adresse : ${formData.address}, ${formData.city}, ${formData.postalCode}%0A
+    - Command : ${formData.paymentMethod}%0A
+    - Articles : ${cart.map(item => `${item.quantity} x ${item.name} (${item.price} FCFA)`).join("%0A")}%0A
+    - Total : ${total.toFixed(2)} FCFA`;
+
+    const whatsappNumber = "221766657278"; // Remplace avec le numéro WhatsApp du vendeur
+    const whatsappURL = `https://wa.me/${whatsappNumber}?text=${message}`;
+
+    window.open(whatsappURL, "_blank");
+  };
+
+  if (formData.paymentMethod === "whatsapp") {
+    sendOrderToWhatsApp();
+    return;
+  }
   return (
     <>
       <main className="container overflow-y-auto py-6">
@@ -292,11 +312,14 @@ const sendNotification = async (orderId: string, customerName: string, total: nu
                     setFormData((prev) => ({ ...prev, paymentMethod: value }))
                   }
                 >
+
                   <motion.div
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     className="flex p-5 justify-between items-center space-x-2 rounded-3xl bg-gradient-to-r mt-5 bg-white/50 backdrop-blur-xl border-orange-400 border-2 shadow-xl transition-all duration-300"
                   >
+
+
                     <CreditCard />
                     <Label htmlFor="card">Carte bancaire</Label>
                     <RadioGroupItem className="text-orange-500" value="card" id="card" />
@@ -418,7 +441,7 @@ const sendNotification = async (orderId: string, customerName: string, total: nu
                     value={formData.city}
                     onChange={handleInputChange}
                     placeholder="Veuillez saisir une ville valide (5 caractères minimum)"
-                    
+
                   />
                   {/* message error pattern*/}
                   {errors.city && <p className="text-sm text-red-500">{errors.city}</p>}
@@ -443,6 +466,40 @@ const sendNotification = async (orderId: string, customerName: string, total: nu
                   Confirmer la commande
                 </Button>
               </motion.div>
+              {/* ou */}
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+
+                  <span className="w-full lg:mx-[50%] text-center items-center justify-center  ">
+                    Ou
+                  </span>
+              </motion.div>
+
+              <RadioGroup
+                name="paymentMethod"
+                value={formData.paymentMethod}
+                onValueChange={(value) =>
+                  setFormData((prev) => ({ ...prev, paymentMethod: value }))
+                }
+              >
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="flex p-3 justify-between items-center space-x-2 rounded-3xl bg-gradient-to-r mb-3 bg-teal-600 backdrop-blur-xl border-orange-400 border-2 shadow-xl transition-all duration-300"
+                >
+                  <Image
+                    width={28}
+                    height={28}
+                    src="/whatsapp.png"
+                    alt="Profile picture"
+                    className="object-coverrounded"
+                  />
+                  <Label htmlFor="whatsapp">WhatsApp</Label>
+                  <RadioGroupItem className="text-green-500" value="whatsapp" id="whatsapp" />
+                </motion.div>
+              </RadioGroup>
             </form>
           </motion.div>
 
