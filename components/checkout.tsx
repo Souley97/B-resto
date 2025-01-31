@@ -484,10 +484,11 @@ export default function CheckoutComponent() {
                   setFormData((prev) => ({ ...prev, paymentMethod: value }))
                 }
               >
+                
                 <motion.div
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="flex p-3 justify-between items-center space-x-2 rounded-3xl bg-gradient-to-r mb-3 bg-teal-600 backdrop-blur-xl border-orange-400 border-2 shadow-xl transition-all duration-300"
+                  className="flex p-3 cursor-pointer justify-between items-center space-x-2 rounded-xl bg-gradient-to-r mb-3 bg-teal-600 backdrop-blur-xl border-orange-400 border-2 shadow-xl transition-all duration-300"
                 >
                   <Image
                     width={28}
@@ -496,7 +497,7 @@ export default function CheckoutComponent() {
                     alt="Profile picture"
                     className="object-coverrounded"
                   />
-                  <Label htmlFor="whatsapp">WhatsApp</Label>
+                  <Label htmlFor="whatsapp" className="cursor-pointer">WhatsApp</Label>
                   <RadioGroupItem className="text-green-500" value="whatsapp" id="whatsapp" />
                 </motion.div>
               </RadioGroup>

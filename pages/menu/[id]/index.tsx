@@ -75,10 +75,10 @@ export default function ProductPage({ product }: { product: Product }) {
     addToCart(cartItem);
     setCartBounce(true);
     setTimeout(() => setCartBounce(false), 500);
-    toast({
-      title: "Produit ajouté au panier",
-      description: `${quantity} x ${product.name} ${selectedSizeOption?.name ? `(${selectedSizeOption.name})` : ""}`,
-    });
+    // toast({
+    //   title: "Produit ajouté au panier",
+    //   description: `${quantity} x ${product.name} ${selectedSizeOption?.name ? `(${selectedSizeOption.name})` : ""}`,
+    // });
   };
 
   const { cart } = useCart();
@@ -210,7 +210,7 @@ export default function ProductPage({ product }: { product: Product }) {
                 size="lg"
                 onClick={handleAddToCart}
               >
-                <ShoppingCart className="w-4 h-4 mr-2" />
+                <ShoppingCart className="w-4 h-4 mr-2 " />
                 Ajouter au panier - {total} FCFA
               </Button>
             </motion.div>

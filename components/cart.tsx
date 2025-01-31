@@ -109,7 +109,7 @@ export default function CartComponent() {
                 
                 <Sheet>
                 <SheetTrigger asChild>
-                <Button variant="outline" className="w-full mt-4 cursor-pointer bg-orange-500" asChild>
+                <Button variant="outline" className="w-full text-white hover:bg-orange-400 mt-4 cursor-pointer bg-orange-500" asChild>
                   <span >Passer à la caisse</span>
 
                 </Button>
