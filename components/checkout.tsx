@@ -273,7 +273,7 @@ export default function CheckoutComponent() {
   }, []);
 
   const sendOrderToWhatsApp = () => {
-    const message = `Bonjour, je souhaite passer une commande :%0A
+    const message = `Bonjour, je souhaite passer une commande sur https://b-resto.vercel.app/ :%0A
     - Nom : ${formData.name}%0A
     - Téléphone : ${formData.phone}%0A
     - Adresse : ${formData.address}, ${formData.city}, ${formData.postalCode}%0A
