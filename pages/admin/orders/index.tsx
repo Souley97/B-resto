@@ -33,7 +33,7 @@ export default function OrdersManagement() {
   const [previousOrders, setPreviousOrders] = useState<Order[]>([]);
 
   // Charger les commandes selon la pagination
- const playSuccessSound = () => {
+  const playSuccessSound = () => {
     const audio = new Audio('/notification.mp3');
     audio.play().catch(error => {
       console.error('Erreur lors de la lecture du fichier audio:', error);
@@ -43,17 +43,17 @@ export default function OrdersManagement() {
 
   useEffect(() => {
     const messaging = getMessaging();
-  
+
     const loadOrders = async () => {
       const queryConstraints: any[] = [
         orderBy("createdAt", "desc"),
         limit(pageSize)
       ];
-  
+
       if (currentPage > 1 && lastVisible) {
         queryConstraints.push(startAfter(lastVisible));
       }
-  
+
       if (filterDate) {
         const startOfDay = new Date(filterDate);
         startOfDay.setHours(0, 0, 0, 0);
@@ -61,9 +61,9 @@ export default function OrdersManagement() {
         endOfDay.setHours(23, 59, 59, 999);
         queryConstraints.push(where("createdAt", ">=", startOfDay), where("createdAt", "<=", endOfDay));
       }
-  
+
       const q = query(collection(db, "orders"), ...queryConstraints);
-  
+
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
         const ordersData: Order[] = [];
         querySnapshot.forEach((doc) => {
@@ -78,24 +78,24 @@ export default function OrdersManagement() {
             createdAt: data.createdAt.toDate(),
           });
         });
-  
+
         // Vérifier si une nouvelle commande a été ajoutée
         // if (ordersData.length > previousOrders.length) {
         //   playSuccessSound();
         // }
-  
+
         setOrders(ordersData);
         setLastVisible(querySnapshot.docs[querySnapshot.docs.length - 1]);
       });
-  
+
       // Total orders count logic remains the same
       const totalOrdersQuery = query(collection(db, "orders"));
       const totalOrdersSnapshot = await getDocs(totalOrdersQuery);
       setTotalOrders(totalOrdersSnapshot.size);
-  
+
       return () => unsubscribe();
     };
-  
+
     loadOrders();
   }, [pageSize, currentPage, filterDate]); // Ajout du filtre comme dépendance // Changer la taille de la page
   const handlePageSizeChange = (value: number) => {
@@ -153,17 +153,17 @@ export default function OrdersManagement() {
             onChange={(e) => setFilter(e.target.value)}
             className="max-w-sm"
           />
-          <div className="flex space-x-2">
-          <div>
-  {/* <label htmlFor="date-filter">Filter by date:</label> */}
-  <Input
-    type="date"
-    id="date-filter"
-    value={filterDate}
-    onChange={(e) => setFilterDate(e.target.value)} // Ici on manipule un autre état pour la date
-    className="border p-2 rounded"
-  />
-</div>
+          <div className="flex overflow-x-auto space-x-2">
+            <div>
+              {/* <label htmlFor="date-filter">Filter by date:</label> */}
+              <Input
+                type="date"
+                id="date-filter"
+                value={filterDate}
+                onChange={(e) => setFilterDate(e.target.value)} // Ici on manipule un autre état pour la date
+                className="border p-2 rounded"
+              />
+            </div>
             <Select onValueChange={(value) => setSortOrder(value as "asc" | "desc")}>
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Sort order" />
