@@ -92,6 +92,16 @@ body {
     @apply bg-background text-foreground;
   }
   .bg-globals {
-    background: #8e6979;
-    background: radial-gradient(circle, rgb(254, 216, 216) 0%, rgba(213, 222, 243, 0.09) 100%);  }
+
+   /* if light mode */
+    /* background:rgb(10, 10, 10); */
+    /* if dark mode */
+    /* background: #8e6979;
+    background: radial-gradient(circle, rgb(254, 216, 216) 0%, rgba(213, 222, 243, 0.09) 100%);  */
+   }
+
+   
+
+/* Mode sombre */
+
 }

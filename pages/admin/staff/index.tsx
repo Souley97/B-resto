@@ -61,7 +61,7 @@ export default function StaffManagement() {
       <h1 className="text-3xl font-bold">Staff Management</h1>
 
       {/* Add New Employee Form */}
-      <Card className="rounded-3xl bg-gradient-to-r mt-5 bg-white/50 backdrop-blur-xl border-white border-2 shadow-xl transition-all duration-300">
+      <Card className="rounded-3xl bg-gradient-to-r mt-5 bg-white/10 backdrop-blur-xl border-white border-2 shadow-xl transition-all duration-300">
         <CardHeader>
           <CardTitle>Add New Employee</CardTitle>
         </CardHeader>
@@ -91,7 +91,7 @@ export default function StaffManagement() {
       </Card>
 
       {/* Employees Table */}
-      <Card className="rounded-3xl bg-gradient-to-r mt-5 bg-white/50 backdrop-blur-xl border-white border-2 shadow-xl transition-all duration-300">
+      <Card className="rounded-3xl bg-gradient-to-r mt-5 bg-white/10 backdrop-blur-xl border-white border-2 shadow-xl transition-all duration-300">
         <CardHeader>
           <CardTitle>Employees</CardTitle>
         </CardHeader>

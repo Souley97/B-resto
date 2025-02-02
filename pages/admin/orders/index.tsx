@@ -140,10 +140,10 @@ export default function OrdersManagement() {
   return (
     <ErrorBoundary fallback={<div>Something went wrong</div>}>
       {/* commande today */}
-      <Card className="rounded-3xl bg-gradient-to-r mt-5 bg-white/50 backdrop-blur-xl border-white border-2 shadow-xl transition-all duration-300">
+      <Card className="rounded-3xl bg-gradient-to-r mt-5 bg-white/10 backdrop-blur-xl border-white border-2 shadow-xl transition-all duration-300">
         <OrdersToday />
       </Card>
-      <Card className="rounded-3xl bg-gradient-to-r mt-5 bg-white/50 backdrop-blur-xl border-white border-2 shadow-xl transition-all duration-300">
+      <Card className="rounded-3xl bg-gradient-to-r mt-5 bg-white/10 backdrop-blur-xl border-white border-2 shadow-xl transition-all duration-300">
         <h1 className="text-3xl font-bold m-6">Orders Management</h1>
 
         <div className="flex justify-between m-4">

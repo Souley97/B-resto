@@ -316,7 +316,7 @@ export default function CheckoutComponent() {
                   <motion.div
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="flex p-5 justify-between items-center space-x-2 rounded-3xl bg-gradient-to-r mt-5 bg-white/50 backdrop-blur-xl border-orange-400 border-2 shadow-xl transition-all duration-300"
+                    className="flex p-5 justify-between items-center space-x-2 rounded-3xl bg-gradient-to-r mt-5 bg-white/10 backdrop-blur-xl border-orange-400 border-2 shadow-xl transition-all duration-300"
                   >
 
 
@@ -327,7 +327,7 @@ export default function CheckoutComponent() {
                   <motion.div
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="flex p-5 justify-between items-center space-x-2 rounded-3xl bg-gradient-to-r mt-5 bg-white/50 backdrop-blur-xl border-orange-400 border-2 shadow-xl transition-all duration-300"
+                    className="flex p-5 justify-between items-center space-x-2 rounded-3xl bg-gradient-to-r mt-5 bg-white/10 backdrop-blur-xl border-orange-400 border-2 shadow-xl transition-all duration-300"
                   >
                     <CreditCard />
                     <Label htmlFor="cash">Espèces</Label>
@@ -336,7 +336,7 @@ export default function CheckoutComponent() {
                   <motion.div
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="flex p-5 justify-between items-center space-x-2 rounded-3xl bg-gradient-to-r mt-5 bg-white/50 backdrop-blur-xl border-orange-400 border-2 shadow-xl transition-all duration-300"
+                    className="flex p-5 justify-between items-center space-x-2 rounded-3xl bg-gradient-to-r mt-5 bg-white/10 backdrop-blur-xl border-orange-400 border-2 shadow-xl transition-all duration-300"
                   >
                     <CreditCard />
                     <Label htmlFor="mobileMoney">Mobile Money</Label>

@@ -109,7 +109,7 @@ export default function InventoryManagement() {
 
       {/* Low Stock Alerts */}
       {lowStockItems.length > 0 && (
-        <Alert className="rounded-3xl bg-gradient-to-r mt-5 bg-white/50 backdrop-blur-xl border-white border-2 shadow-xl transition-all duration-300">
+        <Alert className="rounded-3xl bg-gradient-to-r mt-5 bg-white/10 backdrop-blur-xl border-white border-2 shadow-xl transition-all duration-300">
           <Bell className="h-4 w-4" />
           <AlertTitle>Low Stock Alert</AlertTitle>
           <AlertDescription>
@@ -126,7 +126,7 @@ export default function InventoryManagement() {
       )}
 
       {/* Add New Item Form */}
-      <Card className="rounded-3xl bg-gradient-to-r mt-5 bg-white/50 backdrop-blur-xl border-white border-2 shadow-xl transition-all duration-300">
+      <Card className="rounded-3xl bg-gradient-to-r mt-5 bg-white/10 backdrop-blur-xl border-white border-2 shadow-xl transition-all duration-300">
         <CardHeader>
           <CardTitle>Add New Item</CardTitle>
         </CardHeader>
@@ -158,7 +158,7 @@ export default function InventoryManagement() {
       </Card>
 
       {/* Inventory Table */}
-      <Card className="rounded-3xl bg-gradient-to-r mt-5 bg-white/50 backdrop-blur-xl border-white border-2 shadow-xl transition-all duration-300">
+      <Card className="rounded-3xl bg-gradient-to-r mt-5 bg-white/10 backdrop-blur-xl border-white border-2 shadow-xl transition-all duration-300">
         <CardHeader>
           <CardTitle>Current Inventory</CardTitle>
         </CardHeader>
@@ -200,7 +200,7 @@ export default function InventoryManagement() {
       </Card>
 
       {/* Stock Movement History */}
-      <Card className="rounded-3xl bg-gradient-to-r mt-5 bg-white/50 backdrop-blur-xl border-white border-2 shadow-xl transition-all duration-300">
+      <Card className="rounded-3xl bg-gradient-to-r mt-5 bg-white/10 backdrop-blur-xl border-white border-2 shadow-xl transition-all duration-300">
         <CardHeader>
           <CardTitle>Stock Movement History</CardTitle>
         </CardHeader>

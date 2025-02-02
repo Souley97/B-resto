@@ -88,7 +88,7 @@ export default function ProductPage({ product }: { product: Product }) {
 
   return (
     <>
-      <main className="container bg-gradient-to-br from-gray-50 to-gray-100 backdrop-blur-sm rounded-2xl border border-gray-200 shadow-lg transition-all duration-300 py-6">
+      <main className="container bg-gradient-to-br  backdrop-blur-sm rounded-2xl border border-gray-200 shadow-lg transition-all duration-300 py-6">
         <Button variant="ghost" className="mb-6" asChild>
           <Link href="/menu">
             <ChevronLeft className="w-4 h-4 mr-2" />
@@ -100,7 +100,7 @@ export default function ProductPage({ product }: { product: Product }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="w-full md:w-3/4 lg:w-2/4 md:max-w-[100%] mx-auto grid gap-6 bg-white/70 backdrop-blur-sm rounded-2xl border border-gray-200 shadow-lg p-6"
+          className="w-full md:w-3/4 lg:w-2/4 md:max-w-[100%] mx-auto grid gap-6 bg-white/10 backdrop-blur-sm rounded-2xl border border-gray-200 shadow-lg p-6"
         >
           <motion.div
             whileHover={{ scale: 1.02 }}
@@ -115,7 +115,7 @@ export default function ProductPage({ product }: { product: Product }) {
           </motion.div>
 
           <div className="space-y-4">
-            <h1 className="text-3xl font-bold text-gray-900">{product.name}</h1>
+            <h1 className="text-3xl font-bold ">{product.name}</h1>
             <p className="text-gray-600">{product.description}</p>
 
             <motion.div
@@ -123,11 +123,11 @@ export default function ProductPage({ product }: { product: Product }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
             >
-              <Card className="bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 shadow-sm">
+              <Card className="bg-white/10 backdrop-blur-sm rounded-2xl border border-gray-600 shadow-sm">
                 <CardContent className="space-y-4 p-6">
                   {product.sizes?.length > 0 && (
                     <div className="space-y-2">
-                      <label className="text-sm font-medium text-gray-700">Taille</label>
+                      <label className="text-sm font-medium ">Taille</label>
                       <div className="flex flex-wrap gap-2">
           {product.sizes.map((size) => (
             <Button
@@ -136,7 +136,7 @@ export default function ProductPage({ product }: { product: Product }) {
               className={`flex-1 ${
                 selectedSize === size.id
                   ? "bg-orange-500 text-white hover:bg-orange-600"
-                  : "bg-white text-gray-700 hover:bg-gray-100"
+                  : " bg-white/10 backdrop-blur-sm hover:bg-orange-600"
               }`}
               onClick={() => setSelectedSize(size.id)}
             >
@@ -148,7 +148,7 @@ export default function ProductPage({ product }: { product: Product }) {
                   )}
                   {product.extras?.length > 0 && (
                     <div className="space-y-2">
-                      <label className="text-sm font-medium text-gray-700">Suppléments</label>
+                      <label className="text-sm font-medium ">Suppléments</label>
                       <div className="grid gap-2">
                         {product.extras.map((extra) => (
                           <motion.div
@@ -170,7 +170,7 @@ export default function ProductPage({ product }: { product: Product }) {
                                 }}
                                 className="h-4 w-4"
                               />
-                              <label htmlFor={extra} className="text-gray-700">
+                              <label htmlFor={extra} className="">
                                 {extra}
                               </label>
                             </div>
@@ -181,7 +181,7 @@ export default function ProductPage({ product }: { product: Product }) {
                   )}
 
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700">Quantité</label>
+                    <label className="text-sm font-medium ">Quantité</label>
                     <div className="flex items-center gap-2">
                       <Button
                         variant="outline"
@@ -190,7 +190,7 @@ export default function ProductPage({ product }: { product: Product }) {
                       >
                         <Minus className="w-4 h-4" />
                       </Button>
-                      <span className="w-12 text-center text-gray-700">{quantity}</span>
+                      <span className="w-12 text-center ">{quantity}</span>
                       <Button
                         variant="outline"
                         size="icon"

@@ -11,7 +11,9 @@ const config: Config = {
   theme: {
   	extend: {
 		backgroundImage: {
-			'globals': 'radial-gradient(circle, rgb(254, 216, 216) 0%, rgba(213, 222, 243, 0.09) 100%)',
+			'globals-light': 'radial-gradient(circle, rgb(254, 216, 216) 0%, rgba(213, 222, 243, 0.09) 100%)',
+			'globals-dark': 'radial-gradient(circle, #000000 0%, #0011 100%)', // Vous pouvez changer la couleur selon vos préférences
+			// 'globals-dark': 'radial-gradient(circle, #000000 0%, #333333 100%)', // Vous pouvez changer la couleur selon vos préférences
 		  },
   		colors: {
   			background: 'hsl(var(--background))',

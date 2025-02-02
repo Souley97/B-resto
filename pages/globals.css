@@ -73,13 +73,13 @@
   /* body {
     @apply bg-background text-foreground;
   } */
-  .bg-globals {
+  /* .bg-globals {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Syne", "Bebas Neue", "Plus Jakarta Sans", 'Segoe UI', 'Roboto', 'Oxygen',
       "Open Sans", "Inter", "Public Sans", "DM Sans", "Poppins", 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  }
+  } */
 }
 

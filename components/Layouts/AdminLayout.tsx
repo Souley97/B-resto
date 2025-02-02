@@ -23,6 +23,7 @@ import { Toaster } from "../ui/toaster";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useToast } from "@/hooks/use-toast";
+import { ThemeToggle } from "../theme-toggle";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -85,12 +86,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   };
 
   return (
-    <div className="flex h-screen bg-globals">
+    <div className="flex h-screen dark:bg-globals-dark bg-globals-light">
       {/* Sidebar pour les écrans larges */}
       <motion.aside
         className={`${
           isMenuOpen ? "w-64" : "w-20"
-        } bg-white/25 backdrop-blur-sm lg:m-4 lg:ml-12 rounded-2xl border-white border-2 shadow-xl transition-all duration-300 hidden lg:block`}
+        } bg-white/10 backdrop-blur-sm lg:m-4 lg:ml-12 rounded-2xl border-white border-2 shadow-xl transition-all duration-300 hidden lg:block`}
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5 }}
@@ -127,7 +128,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               className={`flex items-center my-2 gap-2 px-4 py-2 rounded-full w-full transition-colors ${
                 pathname === href
                   ? "bg-gradient-to-r from-indigo-400 via-pink-500 to-purple-500 text-white"
-                  : "text-gray-600 hover:border-2 hover:border-orange-600 hover:animate-border-loop"
+                  : "text-gray-500 hover:border-2 hover:border-orange-600 hover:animate-border-loop"
               }`}
             >
               <Icon className="w-6 h-6" />
@@ -205,20 +206,27 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {isMobile && (
         <button
           onClick={toggleMenu}
-          className="fixed top-4 left-4 p-2 rounded-full bg-white/25 backdrop-blur-sm border-white border-2 shadow-xl z-50 lg:hidden"
+          className="fixed top-4 left-4 p-2 rounded-full bg-white/10 backdrop-blur-sm border-white border-2 shadow-xl z-50 lg:hidden"
         >
           <MenuIcon className="w-6 h-6 text-gray-700" />
         </button>
       )}
 
       {/* Main Content */}
-      <main className="flex-1 overflow-x-hidden lg:px-12 overflow-y-auto">
+      <main className="flex-1 overflow-x-hidden pb-8 lg:px-12 overflow-y-auto">
         <motion.div
           className="container mx-auto px-6 py-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
+          {/* right */}
+          <div
+          className="absolute  top-2 right-28"
+          >
+          <ThemeToggle />
+
+          </div>
           {children}
           <Toaster />
         </motion.div>

@@ -158,7 +158,7 @@ export default function OrdersToday() {
         {orders.map((order) => (
           <Card
             key={order.id}
-            className="bg-white/25 backdrop-blur-sm rounded-2xl border-white border-2 shadow-xl transition-all duration-300"
+            className="bg-white/10 backdrop-blur-sm rounded-2xl border-white border-2 shadow-xl transition-all duration-300"
           >
             <CardContent className="p-4 md:p-6">
               {/* Barre de progression */}

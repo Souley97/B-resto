@@ -41,7 +41,10 @@ export default function AdminDashboard() {
       const todayTimestamp = Timestamp.fromDate(today)
 
       // Fetch today's orders
-      const ordersQuery = query(collection(db, "orders"), where("createdAt", ">=", todayTimestamp))
+      const ordersQuery = query(
+        collection(db, "orders"),
+        where("createdAt", ">=", todayTimestamp),
+      );
       const ordersSnapshot = await getDocs(ordersQuery)
 
       let totalOrders = 0
@@ -51,8 +54,8 @@ export default function AdminDashboard() {
       ordersSnapshot.forEach((doc) => {
         const orderData = doc.data()
         totalOrders++
-        totalRevenue += orderData.total
-        customersServed.add(orderData.customerId)
+        totalRevenue += orderData.total 
+        customersServed.add(orderData.statut='')
       })
 
       // Fetch low stock items
@@ -120,7 +123,7 @@ export default function AdminDashboard() {
           </div>
 
         </Card>
-        <Card className="rounded-3xl w-1/3 md:hidden  justify-between bg-gradient-to-r   bg-white/50 backdrop-blur-xl  border-white border-2 shadow-xl transition-all duration-300"  >
+        <Card className="rounded-3xl w-1/3 md:hidden  justify-between bg-gradient-to-r   bg-white/10 backdrop-blur-xl  border-white border-2 shadow-xl transition-all duration-300"  >
         <CardHeader className="flex flex-row items-center justify-center space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
           </CardHeader>
@@ -132,7 +135,7 @@ export default function AdminDashboard() {
       </div>
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-      <Card className="rounded-3xl justify-between bg-gradient-to-r flex mr-6 bg-white/50 backdrop-blur-xl  border-white border-2 shadow-xl transition-all duration-300"  >
+      <Card className="rounded-3xl justify-between bg-gradient-to-r flex mr-6 bg-white/10 backdrop-blur-xl  border-white border-2 shadow-xl transition-all duration-300"  >
       <div>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Orders</CardTitle>
@@ -148,7 +151,7 @@ export default function AdminDashboard() {
           </div>
 
         </Card>
-        <Card className="rounded-3xl justify-between bg-gradient-to-r flex mr-6 bg-white/50 backdrop-blur-xl  border-white border-2 shadow-xl transition-all duration-300"  >
+        <Card className="rounded-3xl justify-between bg-gradient-to-r flex mr-6 bg-white/10 backdrop-blur-xl  border-white border-2 shadow-xl transition-all duration-300"  >
           <div>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
@@ -164,7 +167,7 @@ export default function AdminDashboard() {
           </div>
 
         </Card>
-        <Card className="rounded-3xl justify-between bg-gradient-to-r flex mr-6 bg-white/50 backdrop-blur-xl  border-white border-2 shadow-xl transition-all duration-300"  >
+        <Card className="rounded-3xl justify-between bg-gradient-to-r flex mr-6 bg-white/10 backdrop-blur-xl  border-white border-2 shadow-xl transition-all duration-300"  >
           <div>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Customers Served</CardTitle>
@@ -184,7 +187,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Chart */}
-      <Card className="mb-8  bg-white/50 backdrop-blur-xl  rounded-2xl border-white border-2 shadow-xl transition-all duration-300">
+      <Card className="mb-8  bg-white/10 backdrop-blur-xl  rounded-2xl border-white border-2 shadow-xl transition-all duration-300">
         <CardHeader>
           <CardTitle>Sales Overview (Last 7 Days)</CardTitle>
         </CardHeader>
