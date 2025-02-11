@@ -29,8 +29,8 @@ export function MainNav() {
   const navLinks = [
     { href: "/", label: "Accueil" },
     { href: "/menu", label: "Commander !" },
-    { href: "/about", label: "À propos" },
-    { href: "/contact", label: "Contactez-Nous" },
+    { href: "#", label: "À propos" },
+    { href: "#", label: "Contactez-Nous" },
   ]
 
   const NavLink = ({ href, label }: { href: string; label: string }) => (

@@ -73,10 +73,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { href: "/admin/orders", label: "Orders", icon: ShoppingCart },
     { href: "/admin/menu", label: "Menu", icon: MenuIcon },
     { href: "/admin/inventory", label: "Inventory", icon: Package },
-    { href: "/admin/finance", label: "Finance", icon: CreditCard },
+    // { href: "/admin/finance", label: "Finance", icon: CreditCard },
     { href: "/admin/staff", label: "Staff", icon: Users },
-    { href: "/admin/analytics", label: "Analytics", icon: PieChart },
-    { href: "/admin/settings", label: "Settings", icon: Settings },
+    // { href: "/admin/analytics", label: "Analytics", icon: PieChart },
+    // { href: "/admin/settings", label: "Settings", icon: Settings },
   ];
 
   const navMotion = {

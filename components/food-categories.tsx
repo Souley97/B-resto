@@ -4,56 +4,105 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { collection, getDocs, query, orderBy } from "firebase/firestore"
+import { db } from "@/lib/firebase"
+interface MenuItem {
+  id: string
+  name: string
+  description: string
+  price: number
+  category: string
+  image: string
+  extras: string[]
+  sizes: { id: string; name: string; price: number }[]
+}
+interface Category {
+  id: string
+  name: string
+  variants: string[]
+}
+// const categories = [
+//   {
+//     id: 1,
+//     name: "PETIT DÉJEUNER ET BRUNCH",
+//     image: "/placeholder.svg?height=300&width=400",
+//     slug: "breakfast",
+//   },
+//   {
+//     id: 2,
+//     name: "BURGERS",
+//     image: "/placeholder.svg?height=300&width=400",
+//     slug: "burgers",
+//   },
+//   {
+//     id: 3,
+//     name: "CUISINE LIBANAISE - GRILL",
+//     image: "/placeholder.svg?height=300&width=400",
+//     slug: "lebanese",
+//   },
+//   {
+//     id: 4,
+//     name: "POKE BOWLS",
+//     image: "/placeholder.svg?height=300&width=400",
+//     slug: "poke",
+//   },
+//   {
+//     id: 5,
+//     name: "SUSHI",
+//     image: "/placeholder.svg?height=300&width=400",
+//     slug: "sushi",
+//   },
+//   {
+//     id: 6,
+//     name: "PASTA",
+//     image: "/placeholder.svg?height=300&width=400",
+//     slug: "pasta",
+//   },
+//   {
+//     id: 7,
+//     name: "PIZZA",
+//     image: "/placeholder.svg?height=300&width=400",
+//     slug: "pizza",
+//   },
+// ];
+const useMenuData = () => {
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-const categories = [
-  {
-    id: 1,
-    name: "PETIT DÉJEUNER ET BRUNCH",
-    image: "/placeholder.svg?height=300&width=400",
-    slug: "breakfast",
-  },
-  {
-    id: 2,
-    name: "BURGERS",
-    image: "/placeholder.svg?height=300&width=400",
-    slug: "burgers",
-  },
-  {
-    id: 3,
-    name: "CUISINE LIBANAISE - GRILL",
-    image: "/placeholder.svg?height=300&width=400",
-    slug: "lebanese",
-  },
-  {
-    id: 4,
-    name: "POKE BOWLS",
-    image: "/placeholder.svg?height=300&width=400",
-    slug: "poke",
-  },
-  {
-    id: 5,
-    name: "SUSHI",
-    image: "/placeholder.svg?height=300&width=400",
-    slug: "sushi",
-  },
-  {
-    id: 6,
-    name: "PASTA",
-    image: "/placeholder.svg?height=300&width=400",
-    slug: "pasta",
-  },
-  {
-    id: 7,
-    name: "PIZZA",
-    image: "/placeholder.svg?height=300&width=400",
-    slug: "pizza",
-  },
-];
+  useEffect(() => {
+    const fetchMenuItems = async () => {
+      try {
+        setIsLoading(true)
+        const menuQuery = query(collection(db, "menuItems"), orderBy("name"))
+        const querySnapshot = await getDocs(menuQuery)
+        const items: MenuItem[] = []
+        querySnapshot.forEach((doc) => {
+          items.push({ id: doc.id, ...doc.data() } as MenuItem)
+        })
+        setMenuItems(items)
+      } catch (err) {
+        setError("Erreur lors du chargement du menu")
+        console.error(err)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchMenuItems()
+  }, [])
+
+  return { menuItems, isLoading, error }
+}
 
 export function FoodCategories() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const itemsPerPage = 4; // Nombre de catégories visibles à la fois
+  const { menuItems, isLoading, error } = useMenuData()
+
+  const categories = useMemo(() => {
+    return ["Tous", ...Array.from(new Set(menuItems.map((item) => item.category)))]
+  }, [menuItems])
 
   const maxIndex = Math.max(0, categories.length - itemsPerPage);
 
@@ -66,7 +115,7 @@ export function FoodCategories() {
   };
 
   return (
-    <section className="py-12 bg-white">
+    <section className="py-12">
       <div className="container">
         {/* Titre et boutons de navigation */}
         <div className="flex items-center justify-between mb-8">
@@ -98,7 +147,8 @@ export function FoodCategories() {
             .map((category) => (
               <Link
                 key={category.id}
-                href={`/menu/${category.slug}`}
+                href={`#`}
+                // href={`/menu/${category.slug}`}
                 className="group relative overflow-hidden rounded-lg"
               >
                 <Image

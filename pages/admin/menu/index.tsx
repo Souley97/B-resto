@@ -150,16 +150,16 @@ export default function MenuManagement() {
   return (
     <div className="container">
       <Card className="rounded-3xl justify-between bg-gradient-to-r lg:p-8 p-3 bg-white/10 backdrop-blur-xl border-white border-2 shadow-xl transition-all duration-300">
-        <h1 className="text-3xl font-bold mb-6">Menu Management</h1>
+        <h1 className="text-3xl font-bold mb-6">Menu Admin</h1>
 
         <form onSubmit={editingItem ? updateMenuItem : addMenuItem} className="mb-8 space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
           <div className=" items-center ">
-            <label htmlFor="description">Produit</label>
+            <label htmlFor="description">Nom complet</label>
           
             <Input
               type="text"
-              placeholder="Name"
+              placeholder="Souleymane Ndiaye"
               value={currentItem.name}
               onChange={(e) =>
                 editingItem
@@ -203,11 +203,11 @@ export default function MenuManagement() {
                 <SelectValue placeholder="Select a category" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="appetizer">Appetizer</SelectItem>
-                <SelectItem value="main">Main Course</SelectItem>
-                <SelectItem value="dessert">Dessert</SelectItem>
-                <SelectItem value="drink">Drink</SelectItem>
-              </SelectContent>
+                <SelectItem value="appetizer">Membre daahira</SelectItem>
+                <SelectItem value="main">Client simple</SelectItem>
+                {/* <SelectItem value="dessert">Dessert</SelectItem>
+                <SelectItem value="drink">Drink</SelectItem>*/}
+              </SelectContent> 
             </Select>
             </div>
             <div className=" items-center ">
